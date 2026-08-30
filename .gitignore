@@ -1,0 +1,28 @@
+# Secrets. The one line in this file that actually matters — .env holds the model
+# server token and, if search is ever enabled, a third-party API key.
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Trust Receipts. Real audit output from real runs: it names workspace paths and
+# quotes tool arguments, so it does not belong in the repository. Keep receipts
+# you want to show as deliberate exports, not as accidental commits.
+# audit/
+
+*.receipt.json
+
+# Local model weights, in case anyone parks them here
+*.gguf
+*.safetensors
+models/
+
+# Node / editor / OS noise
+npm-debug.log*
+*.tsbuildinfo
+coverage/
+.DS_Store
+.vscode/
+.idea/

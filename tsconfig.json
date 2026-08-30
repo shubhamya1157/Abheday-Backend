@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+
+    /* Node 22 runs .ts directly via type stripping. These three options keep us
+       inside the subset of TypeScript that Node can erase without a build step:
+       no enums, no namespaces, no constructor parameter properties.
+       This is why `node src/index.ts` works with zero toolchain. */
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "noEmit": true,
+    "rootDir": ".",
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts"]
+}
