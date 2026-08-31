@@ -1,19 +1,3 @@
-/**
- * Built-in guards. Zero dependencies, so they are always available and always
- * unit-testable — the pipeline is never left unprotected because an optional
- * package failed to install.
- *
- * These are heuristic, not a replacement for a trained classifier. They are
- * tuned for a specific threat model: an on-premise agent operating on documents
- * and code that internal staff and third-party vendors put in the workspace.
- *
- * A NOTE ON SEVERITY. Blocking on any suspicious phrase is unusable — a genuine
- * refinery SOP may legitimately contain the words "override" and "ignore the
- * previous step". So patterns carry weights and only a high combined score
- * blocks. Medium scores neutralise the text and keep going, which preserves the
- * agent's usefulness while removing the instruction's force.
- */
-
 import { makeGuard, type Guard, type GuardInput, type GuardVerdict } from "./pipeline.ts";
 
 /* ------------------------------------------------------------------------- */

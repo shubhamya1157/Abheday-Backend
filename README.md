@@ -51,14 +51,14 @@ How to start your project
 cd OpeX
 ```
 
-# For frontend
+# For Frontend
 👉 **[View Frontend Documentation](./frontend/README.md)**
 
 # For Backend
-👉 **[View Frontend Documentation](./backend/README.md)**
+👉 **[View Backend Documentation](./backend/README.md)**
 
 # For Deploy
-👉 **[View Frontend Documentation](./deploy/README.md)**
+👉 **[View Deploy Documentation](./deploy/README.md)**
 
 <h2 id="colab">🤝 Collaborators</h2>
 

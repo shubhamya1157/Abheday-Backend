@@ -8,14 +8,14 @@ export interface AppConfig {
   env: "development" | "production";
   http: {
     port: number;
-    host: string;
+    host: string; // frontend or backend
     maxInputChars: number;
     authToken?: string;
     corsOrigins: string[];
   };
   model: {
     baseUrl: string;
-    modelId: string;
+    modelId: string; // see later
     apiKey?: string;
     requestTimeoutMs: number;
     maxRetries: number;
@@ -57,8 +57,12 @@ export interface AppConfig {
 }
 
 export function loadConfig(env: Env = process.env): AppConfig {
+  if(process.env){
+    throw Error("No env file there");
+  }
+
   const searchEnabled = env.WEB_SEARCH_ENABLED === "true";
-  const tavilyKey = env.TAVILY_API_KEY || env.WEB_SEARCH_API_KEY;
+  const tavilyKey = env.TAVILY_API_KEY;
   const allowlist = env.EGRESS_ALLOWLIST ? env.EGRESS_ALLOWLIST.split(",").map((s) => s.trim()).filter(Boolean) : [];
   
   if (searchEnabled && !allowlist.includes("api.tavily.com")) {

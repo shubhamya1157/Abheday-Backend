@@ -15,21 +15,23 @@
 
 export type Role = "system" | "user" | "assistant" | "tool";
 
-/** A tool invocation the model asked for, already parsed and normalised. */
+export interface ToolSchema {
+  name: string;
+  description: string;
+  parameters: JsonSchema;
+  tier: "read" | "write" | "execute";
+  timeoutMs?: number;
+}
+
+// it's the action
 export interface ToolCall {
-  /** Stable id used to correlate the call with its result. */
   id: string;
   name: string;
-  /** Parsed arguments. Validated against the tool's schema before execution. */
   args: Record<string, unknown>;
-  /**
-   * The exact text the model emitted for this call, kept verbatim for the
-   * audit log. When a local model emits malformed JSON that we repair, this
-   * preserves what it *actually* said, so a reviewer can see the repair.
-   */
   raw?: string;
   /** True when `args` came out of the JSON-repair path rather than clean parse. */
   repaired?: boolean;
+  guardrailAction?: "allow" | "sanitized" | "blocked";
 }
 
 /** The outcome of executing a ToolCall. Always text — this is a text-to-text core. */
@@ -37,14 +39,10 @@ export interface ToolResult {
   callId: string;
   name: string;
   ok: boolean;
-  /** Text fed back to the model. Truncated to fit the budget if needed. */
-  content: string;
-  /** Present when ok === false. Also surfaced to the model so it can recover. */
-  error?: string;
+  content: [];
+  error?: [];
   durationMs: number;
-  /** True when `content` was cut to respect maxToolResultChars. */
   truncated?: boolean;
-  /** Set when a guardrail rewrote or blocked the result. */
   guardrailAction?: "allow" | "sanitized" | "blocked";
 }
 
@@ -79,32 +77,10 @@ export interface MessageMeta {
 /* Tool declarations                                                          */
 /* ------------------------------------------------------------------------- */
 
-/**
- * A tool as advertised to the model. `parameters` is JSON Schema, because that
- * is the lingua franca both native function-calling and our prompted protocol
- * can consume. The registry derives this from a zod schema so the handler
- * stays type-safe.
- */
-export interface ToolSchema {
-  name: string;
-  description: string;
-  parameters: JsonSchema;
-  /**
-   * Risk tier, consumed by the tool-policy guardrail.
-   *  - "read"    : observes state only
-   *  - "write"   : mutates the workspace
-   *  - "execute" : runs arbitrary code — always requires explicit policy
-   */
-  tier: "read" | "write" | "execute";
-  /** Hard wall-clock cap for a single invocation. */
-  timeoutMs?: number;
-}
-
 /** Minimal structural JSON Schema. Not exhaustive — just what we emit/consume. */
 export interface JsonSchema {
   type?: string | string[];
   description?: string;
-  properties?: Record<string, JsonSchema>;
   required?: string[];
   items?: JsonSchema;
   enum?: unknown[];

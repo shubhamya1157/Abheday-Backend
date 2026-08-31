@@ -6,10 +6,6 @@
     "moduleResolution": "nodenext",
     "types": ["node"],
 
-    /* Node 22 runs .ts directly via type stripping. These three options keep us
-       inside the subset of TypeScript that Node can erase without a build step:
-       no enums, no namespaces, no constructor parameter properties.
-       This is why `node src/index.ts` works with zero toolchain. */
     "allowImportingTsExtensions": true,
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,

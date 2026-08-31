@@ -5,11 +5,6 @@ import { createServer } from "./http/server.ts";
 
 async function main() {
   const config = loadConfig();
-
-
-
-
-
   //Creating log
   const logger = pino({
     level: config.logLevel,
@@ -26,10 +21,6 @@ async function main() {
       logger[level](msg);
     }
   };
-
-
-
-
 
   //Creates the empty agent instance.
   const harness = new Harness(config, log);

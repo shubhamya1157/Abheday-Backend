@@ -4,14 +4,6 @@
 import type { Message } from "../core/types.ts";
 import { countTokens } from "gpt-tokenizer";
 
-
-
-
-//Estimate size
-//"I don't need perfect token accounting. I just need to know whether we're getting dangerously close to the limit."
-
-
-
 //String token calculation
 export function estimateTokens(text: string): number {
   if (text.length === 0) return 0;
@@ -19,15 +11,11 @@ export function estimateTokens(text: string): number {
 }
 
 
-
-
-
-//Token calculation of a message
+// to remove because all the things will be provided by the LLM...
+// to evaluate how to handle if ctrl+c in between 
 export function estimateMessageTokens(m: Message): number {
   let n = estimateTokens(m.content);
- 
-  //"Add a small safety estimate for the structural overhead of this message."
-  n += 7;
+   n += 7;
   for (const tc of m.toolCalls ?? []) {
     n += estimateTokens(tc.name) + estimateTokens(JSON.stringify(tc.args)) + 11;
   }
@@ -37,22 +25,16 @@ export function estimateMessageTokens(m: Message): number {
 
 //Complete conversation token counting
 export function estimateConversationTokens(messages: readonly Message[]): number {
+  // sum of all message token....
   return messages.reduce((sum, m) => sum + estimateMessageTokens(m), 0);
 }
 
 
-
-
-
 export interface ContextConfig {
-
-  contextWindow: number;
-  
-  reserveForCompletion: number;
-
-  compactAtFraction: number;
-
-  keepRecentMessages: number;
+    contextWindow: number;  
+    reserveForCompletion: number;
+    compactAtFraction: number;
+    keepRecentMessages: number;
 }
 
 export const DEFAULT_CONTEXT_CONFIG: ContextConfig = {

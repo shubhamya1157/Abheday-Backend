@@ -30,27 +30,27 @@ import {
 } from "@llm-guardrails/core";
 import type { Guard, GuardInput, GuardStage, GuardVerdict } from "./pipeline.ts";
 
+/*
 export interface CoreGuardrailsConfig {
   level?: "relaxed" | "standard" | "strict" | "basic" | "advanced";
   outputBlockStrategy?: "sanitize" | "block";
   blockedMessage?: string;
-  /** Organisation-specific terms that must never appear in output. */
+  blockedResponse?:{};
   customLeakageTerms?: string[];
   enabledGuards?: Array<"injection" | "pii" | "secrets" | "toxicity" | "leakage">;
 }
-
 function mapLevel(level?: CoreGuardrailsConfig["level"]): DetectionLevel {
   if (level === "relaxed" || level === "basic") return "basic";
   if (level === "strict" || level === "advanced") return "advanced";
   return "standard";
 }
-
 export const MRPL_LEAKAGE_TERMS = [
   "MRPL_INTERNAL_KEY",
   "REFINERY_ROOT_PWD",
   "SCADA_MASTER_TOKEN",
   "PID_CONFIDENTIAL_SPEC",
 ];
+*/
 
 export interface LoadOutcome {
   loaded: boolean;
@@ -60,45 +60,6 @@ export interface LoadOutcome {
 /**
  * Construct the @llm-guardrails/core engine.
  */
-export async function loadExternalEngine(
-  config: CoreGuardrailsConfig = {},
-): Promise<{ engine: GuardrailEngine | null; outcome: LoadOutcome }> {
-  const enabled = config.enabledGuards ?? ["injection", "pii", "secrets", "toxicity", "leakage"];
-
-  try {
-    const engine = new GuardrailEngine({
-      guards: enabled.map((name) =>
-        name === "leakage"
-          ? {
-              name,
-              enabled: true,
-              config: {
-                customTerms: config.customLeakageTerms ?? MRPL_LEAKAGE_TERMS,
-              },
-            }
-          : { name, enabled: true },
-      ),
-      level: mapLevel(config.level),
-      outputBlockStrategy: config.outputBlockStrategy ?? "sanitize",
-      blockedMessage: config.blockedMessage ?? "[AIRGAP_POLICY_VIOLATION_BLOCKED]",
-    });
-
-    // Smoke-test both entry points.
-    await engine.checkInput("healthcheck", { sessionId: "boot" });
-    await engine.checkOutput("healthcheck", { sessionId: "boot" });
-
-    return { engine, outcome: { loaded: true, reason: "loaded and smoke-tested" } };
-  } catch (err) {
-    return {
-      engine: null,
-      outcome: {
-        loaded: false,
-        reason: err instanceof Error ? err.message : "engine initialization failed",
-      },
-    };
-  }
-}
-
 /**
  * Wrap a loaded engine as pipeline Guards.
  *
@@ -126,6 +87,7 @@ export function externalEngineGuards(engine: GuardrailEngine): Guard[] {
     }
     return { action: "allow" };
   };
+  
 
   return [
     {

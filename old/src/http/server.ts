@@ -8,7 +8,7 @@ import express, {
   type Response,
 } from "express";
 
-import { z } from "zod";
+import * as z from "zod";
 
 import type { AgentEvent } from "../agent/events.ts";
 import type { Harness } from "../agent/harness.ts";
@@ -40,26 +40,7 @@ export function createServer(deps: ServerDeps): Express {
     app.use(corsMiddleware(config.http.corsOrigins));
   }
 
- 
-
-
-
   app.use(authMiddleware(config, log));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 
   app.get("/v1/tools", (_req, res) => {
     res.json({ tools: harness.registry.schemas() });

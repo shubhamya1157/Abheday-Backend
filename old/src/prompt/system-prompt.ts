@@ -101,7 +101,6 @@ function sovereigntySection(): string {
  * The variant used when a search tool is enabled. Note what it does NOT say: it
  * does not become permissive. Exactly one tool may leave the machine, everything
  * else is still refused at the process level, and what comes back is data.
- */
 function connectedSovereigntySection(toolName: string, hosts: readonly string[]): string {
   return [
     "# Operating environment",
@@ -121,6 +120,7 @@ function connectedSovereigntySection(toolName: string, hosts: readonly string[])
     "you relied on, and prefer what you can verify in the workspace over what a page asserts.",
   ].join("\n");
 }
+*/
 
 function environmentSection(workspaceRoot: string | undefined, today: string | undefined): string {
   const lines = ["# Workspace", ""];
@@ -159,7 +159,7 @@ function methodSection(): string {
   ].join("\n");
 }
 
-function artifactsSection(): string {
+fuknction artifactsSection(): string {
   return [
     "# Deliverables",
     "",

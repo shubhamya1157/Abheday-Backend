@@ -1,6 +1,4 @@
 
-
-
 //stat --> Gets information about a file or directory.
 //dirname() --> Gets the parent directory
 //relative() --> Gets a path relative to another path
@@ -12,7 +10,6 @@ import { defineTool, type ToolDefinition } from "./registry.ts";
 import { requireSafePath, resolveInsideRoot } from "../guardrails/path-jail.ts";
 
 
-
 const IGNORED_DIRS = new Set([
   "node_modules", ".git", ".next", "dist", "build", "__pycache__",
   ".venv", "venv", ".cache", "coverage", ".turbo",
@@ -21,7 +18,6 @@ const IGNORED_DIRS = new Set([
 
 
 // Creating a tool
-
 export const readFileTool = defineTool<{ path: string; start_line?: number; end_line?: number }>({
   name: "read_file",
   description:

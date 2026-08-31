@@ -1,23 +1,9 @@
-
-
-
-
-
-
-
-
-
 // WE CAN ALSO IMPLEMENT IT USING HASH
-
-
-
-
 //“What exactly happened during this agent run, what tools did it use, what policies were triggered, 
 // what files/paths did it touch, and can we verify that the event sequence is structurally intact?
 
 import type { AgentEvent, RunOutcome } from "../agent/events.ts";
 import type { EgressAttestation } from "../net/egress-guard.ts";
-
 
 export type { EgressAttestation };
 
