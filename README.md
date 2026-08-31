@@ -51,14 +51,14 @@ How to start your project
 cd OpeX
 ```
 
-# For Frontend
+# For frontend
 👉 **[View Frontend Documentation](./frontend/README.md)**
 
 # For Backend
-👉 **[View Backend Documentation](./backend/README.md)**
+👉 **[View Frontend Documentation](./backend/README.md)**
 
 # For Deploy
-👉 **[View Deploy Documentation](./deploy/README.md)**
+👉 **[View Frontend Documentation](./deploy/README.md)**
 
 <h2 id="colab">🤝 Collaborators</h2>
 
@@ -71,6 +71,59 @@ Special thank you for all people that contributed for this project.
         <img src="https://avatars.githubusercontent.com/u/214850110?v=4&size=64" width="100px;" alt="Fernanda Kipper Profile Picture"/><br>
         <sub>
           <b>Hardik</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+<table>
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/hiama7">
+        <img src="https://avatars.githubusercontent.com/u/240234012?v=4" width="100px;" alt="Fernanda Kipper Profile Picture"/><br>
+        <sub>
+          <b>Himanshu</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/shubhamya1157">
+        <img src="https://avatars.githubusercontent.com/u/216873110?v=4" width="100px;" alt="Fernanda Kipper Profile Picture"/><br>
+        <sub>
+          <b>Shubham</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/khichergarvit-code">
+        <img src="https://avatars.githubusercontent.com/u/275082771?v=4" width="100px;" alt="Fernanda Kipper Profile Picture"/><br>
+        <sub>
+          <b>Garvit</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/srishtimishra520-beep">
+        <img src="https://avatars.githubusercontent.com/u/321966112?v=4" width="100px;" alt="Fernanda Kipper Profile Picture"/><br>
+        <sub>
+          <b>Srishti</b>
         </sub>
       </a>
     </td>
