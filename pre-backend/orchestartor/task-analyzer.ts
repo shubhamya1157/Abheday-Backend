@@ -5,6 +5,9 @@ export type { TaskProfile } from "./types.js";
 export function classifyTask(input: string): TaskProfile {
   const text = input.toLowerCase();
 
+  // some text will always be passed because system prompt according to the organisation is there
+  // todo if image is there or document uploaded, then do...
+  // need to write regex (like *.pdf for documents) & *.png | *.jpeg...
   const taskType: TaskType = text.includes("code") || text.includes("script") || text.includes("function")
     ? "coding"
     : text.includes("image") || text.includes("photo") || text.includes("scan") || text.includes("ocr") || text.includes("vision")
@@ -29,7 +32,9 @@ export function classifyTask(input: string): TaskProfile {
   if (requiredCapabilities.size === 0) requiredCapabilities.add("general");
 
   const outputType: OutputModality = taskType === "coding" ? "code" : taskType === "document" ? "document" : "text";
+
   const reasonLevel = taskType === "reasoning" || text.includes("analysis") ? "high" : taskType === "coding" ? "medium" : "low";
+  
   const riskLevel: RiskLevel = text.includes("secret") || text.includes("password") || text.includes("approval") || text.includes("defence") ? "high" : taskType === "document" ? "medium" : "low";
 
   return {

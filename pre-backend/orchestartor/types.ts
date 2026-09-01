@@ -8,6 +8,7 @@ export type ModelRole = "general" | "reasoning" | "coding" | "vision" | "documen
 export type ToolTier = "read" | "write" | "execute";
 export type GuardStage = "user_input" | "tool_args" | "tool_result" | "model_output";
 
+// here sessionId corresponds to the conversationId itself
 export interface AgentRequest {
   requestId?: string;
   userInput: string;
