@@ -9,37 +9,6 @@ import type {
 export class CapabilityRouter {
   constructor(private readonly models: ModelDescriptor[]) {}
 
-  async route(task: TaskProfile, context: ExecutionContext): Promise<ModelSelection> {
-    const candidates = this.models.filter((model) => model.enabled && this.isCompatible(model, task, context));
-    const rejected: Array<{ model: ModelDescriptor; reason: string }> = [];
-
-    for (const model of this.models) {
-      if (!model.enabled) {
-        rejected.push({ model, reason: "model disabled" });
-        continue;
-      }
-      if (!this.isCompatible(model, task, context)) {
-        rejected.push({ model, reason: "capabilities or modality mismatch" });
-      }
-    }
-
-    if (candidates.length === 0) {
-      throw new Error("No compatible local model available for the requested task");
-    }
-
-    const selected = [...candidates].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))[0];
-    const reasons: string[] = [];
-
-    if (task.requiredCapabilities.includes("coding")) reasons.push("coding capability required");
-    if (task.requiredCapabilities.includes("vision")) reasons.push("vision capability required");
-    if (task.requiredCapabilities.includes("document")) reasons.push("document capability required");
-    if (task.reasoningLevel !== "low") reasons.push(`reasoning level ${task.reasoningLevel} required`);
-    if (task.requiresTools && selected.toolCalling) reasons.push("tool calling supported");
-    if (selected.role === "general") reasons.push("general execution path selected");
-
-    return { model: selected, reason: reasons };
-  }
-
   private isCompatible(model: ModelDescriptor, task: TaskProfile, context: ExecutionContext): boolean {
     const required = new Set(task.requiredCapabilities);
     const capabilityCheck = (
@@ -90,4 +59,36 @@ export class CapabilityRouter {
       reason: [`selected ${selected.id} based on required capabilities and availability`],
     };
   }
+
+   async route(task: TaskProfile, context: ExecutionContext): Promise<ModelSelection> {
+    const candidates = this.models.filter((model) => model.enabled && this.isCompatible(model, task, context));
+    const rejected: Array<{ model: ModelDescriptor; reason: string }> = [];
+
+    for (const model of this.models) {
+      if (!model.enabled) {
+        rejected.push({ model, reason: "model disabled" });
+        continue;
+      }
+      if (!this.isCompatible(model, task, context)) {
+        rejected.push({ model, reason: "capabilities or modality mismatch" });
+      }
+    }
+
+    if (candidates.length === 0) {
+      throw new Error("No compatible local model available for the requested task");
+    }
+
+    const selected = [...candidates].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))[0];
+    const reasons: string[] = [];
+
+    if (task.requiredCapabilities.includes("coding")) reasons.push("coding capability required");
+    if (task.requiredCapabilities.includes("vision")) reasons.push("vision capability required");
+    if (task.requiredCapabilities.includes("document")) reasons.push("document capability required");
+    if (task.reasoningLevel !== "low") reasons.push(`reasoning level ${task.reasoningLevel} required`);
+    if (task.requiresTools && selected.toolCalling) reasons.push("tool calling supported");
+    if (selected.role === "general") reasons.push("general execution path selected");
+
+    return { model: selected, reason: reasons };
+  }
+  
 }
