@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   OPX Workbench — global styles
+
+   A calm, readable chat surface in OPX's "paper room": the cream/ink
+   side of the brand. Lots of quiet, generous whitespace, one amber
+   accent for the thing that runs, green for verified, red for blocked.
+   The machinery (routing, guardrails, the receipt) is here, but folded
+   away under each answer so it never shouts over the conversation.
+   ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  /* keyboard users must always be able to see where they are */
+  :focus-visible {
+    @apply outline-none ring-2 ring-signal/70 ring-offset-2 ring-offset-paper;
+  }
+
+  ::selection {
+    background: #ff8a2b;
+    color: #ffffff;
+  }
+
+  /* thin, quiet scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #c9d0c7 transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #c9d0c7;
+    border-radius: 9px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  *:hover::-webkit-scrollbar-thumb {
+    background: #b4bdb1;
+    background-clip: content-box;
+  }
+}
+
+@layer components {
+  /* The wordmark, used nowhere else. Chakra Petch reads like a plate
+     stencilled onto a control panel; the X is amber because it is the same
+     X the egress guard stamps on a blocked call. */
+  .wordmark {
+    font-family: "Chakra Petch", Archivo, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  /* Small section labels — mono, uppercase, widely tracked, like a DCS screen.
+     This is the only "technical" type in the layout; everything else is calm. */
+  .label {
+    @apply font-mono text-[10px] font-medium uppercase tracking-label;
+  }
+
+  /* The one human voice: an italic serif against all the machinery. Used once,
+     on the empty state. */
+  .aside {
+    font-family: Newsreader, Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.004em;
+  }
+
+  /* A quiet card on paper: soft surface, hairline ink border, room to breathe.
+     This is the workbench's one surface recipe — flat, never a gradient. */
+  .card {
+    @apply rounded-[14px] border border-ink-line bg-paper-2/50;
+  }
+}
