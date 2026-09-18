@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   OPX — global styles
+
+   The whole page is two rooms with one line between them:
+   above the cut it is paper (the plant office), below it is plant
+   (the machine room). A 1px amber line marks the seam and turns up
+   again wherever the page needs to show state.
+   ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    /* the cut. App.jsx flips a class on <body> and this animates it. */
+    transition: background-color 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 420ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body.room-plant {
+    @apply bg-plant text-bone;
+  }
+
+  /* keyboard users must always be able to see where they are */
+  :focus-visible {
+    @apply outline-none ring-2 ring-signal ring-offset-2 ring-offset-transparent;
+  }
+
+  ::selection {
+    background: #ff8a2b;
+    color: #08090a;
+  }
+}
+
+@layer components {
+  /* The punch line. Archivo is a variable font, so we push the width axis
+     out to 108 and the weight to 800 — it reads like a nameplate stamped
+     onto a piece of equipment rather than a normal marketing headline. */
+  .punch {
+    font-family: Archivo, "Arial Black", sans-serif;
+    font-variation-settings: "wdth" 108, "wght" 800;
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.032em;
+    text-transform: uppercase;
+  }
+
+  /* Section headings: same family, a little narrower and lighter. */
+  .head {
+    font-family: Archivo, "Arial Black", sans-serif;
+    font-variation-settings: "wdth" 102, "wght" 700;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  /* The wordmark, used nowhere else. Chakra Petch is squared and technical, so
+     OPX reads like a plate stencilled onto a control panel. The X is amber
+     because it is the same X the egress guard stamps on a blocked call. */
+  .wordmark {
+    font-family: "Chakra Petch", Archivo, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  /* The one human voice on the page: an italic serif, set against all that
+     machinery. Used twice. Any more and it stops being a voice. */
+  .aside {
+    font-family: Newsreader, Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.004em;
+  }
+
+  /* Every small label on this page is mono, uppercase and widely tracked.
+     Data, tag numbers and log lines are mono too — same as a DCS screen. */
+  .label {
+    @apply font-mono text-[10.5px] font-medium uppercase tracking-label;
+  }
+
+  /* A mask that lets a line of text slide up from nothing. */
+  .reveal-mask {
+    overflow: hidden;
+    display: block;
+  }
+
+  /* Faint engineering grid. Kept almost invisible on purpose — it is
+     texture behind the type, not a feature of its own. */
+  .grid-lines {
+    background-image: linear-gradient(to right, rgba(123, 129, 136, 0.09) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(123, 129, 136, 0.09) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* The workflow canvas. A dot grid instead of a line grid, because that is
+     what a node editor looks like and the eye reads it as a work surface. */
+  .dot-grid {
+    background-image: radial-gradient(rgba(123, 129, 136, 0.22) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  .grid-lines-paper {
+    background-image: linear-gradient(to right, rgba(11, 12, 11, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11, 12, 11, 0.055) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* fades the grid out towards the edges so it never fights the type */
+  .grid-mask {
+    mask-image: radial-gradient(ellipse 80% 62% at 50% 42%, #000 30%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 62% at 50% 42%, #000 30%, transparent 78%);
+  }
+
+  /* One soft pool of light at the top of a section, so a stretch of the
+     machine room does not read as flat black. Deliberately grey and not
+     amber: amber on this page always means something is happening. */
+  .room-glow {
+    background: radial-gradient(
+      ellipse 58% 100% at 50% 0%,
+      rgba(123, 129, 136, 0.17),
+      transparent 72%
+    );
+  }
+
+  .hairline {
+    @apply h-px w-full bg-line;
+  }
+
+  .hairline-paper {
+    @apply h-px w-full bg-ink-line;
+  }
+}
+
+/* Anyone who has asked their system to calm animations down gets a still,
+   readable page. The colour cut still happens — colour is not motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

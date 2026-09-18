@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OPX — nothing leaves the room</title>
+    <meta
+      name="description"
+      content="OPX is a sovereign AI workbench. Open-weight models, your own metal, real documents out, and a receipt for every one. No API keys. No egress."
+    />
+    <meta name="theme-color" content="#08090A" />
+
+    <!--
+      Five type roles, five jobs:
+        Chakra Petch  — the OPX wordmark only (squared, technical, Indian foundry)
+        Archivo       — display headlines, stretched wide on its width axis
+        IBM Plex Sans — body copy
+        IBM Plex Mono — data, labels, log lines, buttons
+        Newsreader    — one italic serif aside, the human voice on the page
+
+      These come from Google while you build. For the air-gapped demo you MUST
+      self-host them instead, otherwise the page loses its type on the machine
+      with no internet. See README, section "Fonts and the offline demo".
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Chakra+Petch:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,wght@1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
