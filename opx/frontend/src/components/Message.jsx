@@ -12,7 +12,7 @@ import { describe, TONE } from "@/lib/trace";
 // full run trace. Folded away by default so the conversation stays readable,
 // one click away when you want the proof.
 
-export default function Message({ role, text, meta, events, receipt, streaming }) {
+export default function Message({ role, text, meta, events, receipt, streaming, defaultOpen }) {
   if (role === "user") {
     return (
       <div className="mb-6 flex justify-end">
@@ -45,7 +45,7 @@ export default function Message({ role, text, meta, events, receipt, streaming }
 
         {/* the quiet machinery: receipt chip + steps, once the run has anything */}
         {(receipt || (events && events.length > 0)) && (
-          <RunDetails meta={meta} events={events} receipt={receipt} />
+          <RunDetails meta={meta} events={events} receipt={receipt} defaultOpen={defaultOpen} />
         )}
       </div>
     </div>
@@ -54,8 +54,8 @@ export default function Message({ role, text, meta, events, receipt, streaming }
 
 // The folded-away run. A row of small readouts (model, steps, receipt state)
 // that expands to the full, colour-coded step trace. Calm by default.
-function RunDetails({ meta, events, receipt }) {
-  const [open, setOpen] = useState(false);
+function RunDetails({ meta, events, receipt, defaultOpen }) {
+  const [open, setOpen] = useState(Boolean(defaultOpen));
   const verified = receipt?.verified;
 
   return (

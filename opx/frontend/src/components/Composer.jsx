@@ -31,7 +31,7 @@ export default function Composer({ value, onChange, onSend, onStop, busy }) {
             ref={ref}
             rows={1}
             value={value}
-            placeholder="Ask the workbench to do something…"
+            placeholder="Message OPX…"
             onChange={(e) => {
               onChange(e.target.value);
               resize();
