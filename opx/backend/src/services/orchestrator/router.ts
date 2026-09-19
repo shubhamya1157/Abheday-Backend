@@ -7,7 +7,10 @@ import type {
 } from "./types.ts";
 
 export class CapabilityRouter {
-  constructor(private readonly models: ModelDescriptor[]) {}
+  models: ModelDescriptor[];
+  constructor(models: ModelDescriptor[]) {
+    this.models = models;
+  }
 
   private isCompatible(model: ModelDescriptor, task: TaskProfile, context: ExecutionContext): boolean {
     const required = new Set(task.requiredCapabilities);
@@ -41,15 +44,15 @@ export class CapabilityRouter {
   }
 
   decision(task: TaskProfile, context: ExecutionContext): RoutingDecision {
-    const candidates = this.models.filter((model) => model.enabled && this.isCompatible(model, task, context));
-    const selected = candidates.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))[0];
+    const candidates = this.models?.filter((model:ModelDescriptor) => model.enabled && this.isCompatible(model, task, context));
+    const selected = candidates.sort((a:ModelDescriptor, b:ModelDescriptor) => (b.priority ?? 0) - (a.priority ?? 0))[0];
     if (!selected) {
       throw new Error("No compatible local model available for the requested task");
     }
 
     const rejected = this.models
-      .filter((model) => model.enabled && !this.isCompatible(model, task, context))
-      .map((model) => ({ model, reason: "capabilities or modality mismatch" }));
+      .filter((model:ModelDescriptor) => model.enabled && !this.isCompatible(model, task, context))
+      .map((model:ModelDescriptor) => ({ model, reason: "capabilities or modality mismatch" }));
 
     return {
       requested: task,
@@ -61,7 +64,7 @@ export class CapabilityRouter {
   }
 
    async route(task: TaskProfile, context: ExecutionContext): Promise<ModelSelection> {
-    const candidates = this.models.filter((model) => model.enabled && this.isCompatible(model, task, context));
+    const candidates = this.models.filter((model:ModelDescriptor) => model.enabled && this.isCompatible(model, task, context));
     const rejected: Array<{ model: ModelDescriptor; reason: string }> = [];
 
     for (const model of this.models) {
@@ -78,15 +81,15 @@ export class CapabilityRouter {
       throw new Error("No compatible local model available for the requested task");
     }
 
-    const selected = [...candidates].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))[0];
+    const selected:ModelDescriptor = [...candidates].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))[0] as ModelDescriptor;
     const reasons: string[] = [];
 
     if (task.requiredCapabilities.includes("coding")) reasons.push("coding capability required");
     if (task.requiredCapabilities.includes("vision")) reasons.push("vision capability required");
     if (task.requiredCapabilities.includes("document")) reasons.push("document capability required");
     if (task.reasoningLevel !== "low") reasons.push(`reasoning level ${task.reasoningLevel} required`);
-    if (task.requiresTools && selected.toolCalling) reasons.push("tool calling supported");
-    if (selected.role === "general") reasons.push("general execution path selected");
+    if (task.requiresTools && selected?.toolCalling) reasons.push("tool calling supported");
+    if (selected?.role === "general") reasons.push("general execution path selected");
 
     return { model: selected, reason: reasons };
   }
