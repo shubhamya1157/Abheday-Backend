@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChevronRight, ShieldCheck, ShieldAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { describe, TONE } from "@/lib/trace";
+import ReceiptCard from "@/components/ReceiptCard";
 
 // One turn in the conversation.
 //
@@ -101,6 +102,14 @@ function RunDetails({ meta, events, receipt, defaultOpen }) {
             <TraceRow key={i} ev={ev} />
           ))}
         </ol>
+      )}
+
+      {/* the full receipt for this answer: verify, render, download. Only when
+          the backend streamed the whole thing (receipt.full). */}
+      {open && receipt?.full && (
+        <div className="mt-2.5">
+          <ReceiptCard receipt={receipt.full} />
+        </div>
       )}
     </div>
   );

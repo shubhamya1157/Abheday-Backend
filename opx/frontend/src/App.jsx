@@ -5,6 +5,7 @@ import Message from "@/components/Message";
 import Composer from "@/components/Composer";
 import Settings from "@/components/Settings";
 import ProjectView from "@/components/ProjectView";
+import Inspect from "@/components/Inspect";
 import Modal from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { getHealth, getModels, chatStream } from "@/lib/api";
@@ -35,7 +36,7 @@ export default function App() {
   const [prefs, setPrefs] = useState(() => loadPrefs());
 
   // what is on screen right now
-  const [view, setView] = useState("chat"); // "chat" | "projects" | "project"
+  const [view, setView] = useState("chat"); // "chat" | "projects" | "project" | "inspect"
   const [activeId, setActiveId] = useState(() => firstChatId(loadChats()));
   const [activeProjectId, setActiveProjectId] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -120,6 +121,10 @@ export default function App() {
 
   function openProjects() {
     setView("projects");
+  }
+
+  function openInspect() {
+    setView("inspect");
   }
 
   function openProject(id) {
@@ -277,6 +282,7 @@ export default function App() {
         onOpenProject={openProject}
         onNewProject={() => setNewProjOpen(true)}
         onOpenProjects={openProjects}
+        onOpenInspect={openInspect}
         onOpenSettings={() => setSettingsOpen(true)}
       />
 
@@ -289,6 +295,12 @@ export default function App() {
               onOpen={openProject}
               onNew={() => setNewProjOpen(true)}
             />
+          </div>
+        )}
+
+        {view === "inspect" && (
+          <div className="min-h-0 flex-1 overflow-hidden">
+            <Inspect />
           </div>
         )}
 

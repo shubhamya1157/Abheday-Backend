@@ -32,8 +32,18 @@ export function getTools() {
   return getJson("/tools");
 }
 
-// --- receipt verify --------------------------------------------------------
+// The composed system prompt comes back as plain text, not JSON, so read it
+// with .text() rather than getJson().
+export async function getSystemPrompt() {
+  const res = await fetch(BASE + "/system-prompt", { headers: { ...authHeaders() } });
+  if (!res.ok) throw new Error(`/system-prompt returned ${res.status}`);
+  return res.text();
+}
 
+// --- receipt verify + render ----------------------------------------------
+
+// Independently re-check a receipt's ordering and gaps. Returns
+// { valid, brokenAt?, reason?, entriesChecked }.
 export async function verifyReceipt(receipt) {
   const res = await fetch(BASE + "/receipt/verify", {
     method: "POST",
@@ -41,6 +51,20 @@ export async function verifyReceipt(receipt) {
     body: JSON.stringify(receipt),
   });
   return res.json();
+}
+
+// Turn a receipt into the Markdown a human reads. Comes back as plain text.
+export async function renderReceipt(receipt) {
+  const res = await fetch(BASE + "/receipt/render", {
+    method: "POST",
+    headers: { "content-type": "application/json", ...authHeaders() },
+    body: JSON.stringify(receipt),
+  });
+  if (!res.ok) {
+    const detail = await safeText(res);
+    throw new Error(detail || `/receipt/render returned ${res.status}`);
+  }
+  return res.text();
 }
 
 // --- the run, streamed with Server-Sent Events -----------------------------

@@ -1,4 +1,4 @@
-import { Plus, Settings as SettingsIcon, MessageSquare, Folder, Trash2, PanelsTopLeft, Brain, Cpu, WifiOff, CircleAlert } from "lucide-react";
+import { Plus, Settings as SettingsIcon, MessageSquare, Folder, Trash2, PanelsTopLeft, Brain, Cpu, WifiOff, CircleAlert, ScanSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ago, bucket } from "@/lib/store";
 
@@ -22,6 +22,7 @@ export default function Sidebar({
   onOpenProject,
   onNewProject,
   onOpenProjects,
+  onOpenInspect,
   onOpenSettings,
 }) {
   const reachable = health?.status === "ok";
@@ -47,6 +48,19 @@ export default function Sidebar({
         <Button variant="outline" size="sm" className="w-full justify-start" onClick={() => onNewChat(null)} disabled={busy}>
           <Plus size={14} /> New chat
         </Button>
+      </div>
+
+      {/* inspect — what the model is given, and how a run is verified */}
+      <div className="mt-1.5 px-3">
+        <button
+          onClick={onOpenInspect}
+          className={`flex w-full items-center gap-2.5 rounded-[8px] px-2 py-1.5 text-left transition-colors ${
+            view === "inspect" ? "bg-ink/[0.06] text-ink" : "text-ink hover:bg-ink/[0.03]"
+          }`}
+        >
+          <ScanSearch size={14} className="shrink-0 text-ink-muted/70" />
+          <span className="text-[13px]">Inspect</span>
+        </button>
       </div>
 
       {/* scrolling middle: projects, then history */}
