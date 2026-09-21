@@ -1,0 +1,2 @@
+{"runId":"run_8d3ddafc-88cc-41a9-8ad9-3f8de96968e6","seq":1,"at":"2026-09-21T14:29:03.118Z","type":"run_start","summary":"run started on llamacpp:local-model"}
+{"runId":"run_8d3ddafc-88cc-41a9-8ad9-3f8de96968e6","seq":2,"at":"2026-09-21T14:29:03.120Z","type":"run_end","summary":"run ended: aborted"}

@@ -1,0 +1,57 @@
+{
+  "runId": "run_8d3ddafc-88cc-41a9-8ad9-3f8de96968e6",
+  "sessionId": "sess_cpz1xg",
+  "model": "llamacpp:local-model",
+  "startedAt": "2026-09-21T14:29:03.118Z",
+  "endedAt": "2026-09-21T14:29:03.120Z",
+  "input": "integration of sinx",
+  "outcome": {
+    "runId": "run_8d3ddafc-88cc-41a9-8ad9-3f8de96968e6",
+    "stopReason": "aborted",
+    "text": "Run cancelled.",
+    "steps": 0,
+    "toolCallCount": 0,
+    "usage": {
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0
+    },
+    "durationMs": 2
+  },
+  "stats": {
+    "events": 2,
+    "steps": 0,
+    "toolCalls": 0,
+    "guardrailBlocks": 0,
+    "guardrailSanitizations": 0,
+    "compactions": 0,
+    "warnings": 0,
+    "toolsUsed": {},
+    "pathsTouched": []
+  },
+  "entries": [
+    {
+      "seq": 1,
+      "at": "2026-09-21T14:29:03.118Z",
+      "type": "run_start",
+      "summary": "run started on llamacpp:local-model"
+    },
+    {
+      "seq": 2,
+      "at": "2026-09-21T14:29:03.120Z",
+      "type": "run_end",
+      "summary": "run ended: aborted"
+    }
+  ],
+  "egress": {
+    "enforced": true,
+    "allowlist": [
+      "<loopback>"
+    ],
+    "totalRequests": 10,
+    "allowedRequests": 10,
+    "blockedRequests": 0,
+    "violations": [],
+    "generatedAt": "2026-09-21T14:29:03.120Z"
+  }
+}

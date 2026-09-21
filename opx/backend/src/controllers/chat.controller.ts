@@ -57,6 +57,9 @@ export function chatController(deps: ChatControllerDeps) {
           verified: verifyReceipt(result.receipt).valid,
           stats: result.receipt.stats,
           ...(result.receiptPath ? { path: result.receiptPath } : {}),
+          // The full receipt, so the client can render, download, and
+          // independently re-verify it without a second round-trip.
+          full: result.receipt,
         },
       });
     } catch (err) {
@@ -120,6 +123,9 @@ export function chatStreamController(deps: ChatControllerDeps) {
             stats: next.value.receipt.stats,
             model: next.value.routing.modelId,
             ...(next.value.receiptPath ? { path: next.value.receiptPath } : {}),
+            // The full receipt, so the client can render, download, and
+            // independently re-verify it — the trust boundary made visible.
+            full: next.value.receipt,
           });
           send("done", next.value.outcome);
           break;
